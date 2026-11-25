@@ -877,6 +877,9 @@
     const hasYtUrl = Boolean(ytOffer.url && ytOffer.url.trim());
 
     const ecoButtons = [];
+    if (CONFIG.ecosystem.debtFreePlanner && CONFIG.ecosystem.debtFreePlanner.url) {
+      ecoButtons.push(`<a class="btn btn-sm" href="${CONFIG.ecosystem.debtFreePlanner.url}" target="_blank" rel="noopener noreferrer">${CONFIG.ecosystem.debtFreePlanner.label}</a>`);
+    }
     if (hasYtUrl) {
       ecoButtons.push(`<a class="btn btn-sm" href="${ytOffer.url}" target="_blank" rel="noopener noreferrer">${ytOffer.label}</a>`);
     }

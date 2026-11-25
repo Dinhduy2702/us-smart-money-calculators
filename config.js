@@ -14,6 +14,10 @@ window.SMARTMONEY_CONFIG = {
     lastUpdated: "Nov 2026"
   },
   ecosystem: {
+    debtFreePlanner: {
+      label: "DebtFree US Payoff Planner",
+      url: "https://dinhduy2702.github.io/us-debt-free-planner/"
+    },
     youtubeFinance: {
       label: "Watch US Finance Guides on YouTube",
       url: "" // AGY 3 cap nhat link kenh YT Finance EN khi lap xong

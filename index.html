@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartMoney US: 2026 Paycheck Tax (50 States), Compound Interest &amp; Mortgage Calculators</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230F766E'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='38' fill='%23FFFFFF'%3E$%3C/text%3E%3C/svg%3E">
+  <meta name="description" content="Free 2026 US financial calculators: 50-state paycheck after-tax calculator, S&amp;P 500 compound interest growth, 30-year mortgage PITI, auto loan 20/4/10 check, and 1099 freelance quarterly tax estimator.">
+  <meta property="og:title" content="SmartMoney US: 2026 Tax &amp; Wealth Calculators">
+  <meta property="og:description" content="Instant 50-state take-home pay, compound investing, mortgage, auto loan, and freelance quarterly tax estimates.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,600;6..72,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand-link" href="#paycheck">
+        <span class="brand-badge" aria-hidden="true">$</span>
+        <span>
+          <span class="brand-title" id="brandNameText">SmartMoney US</span>
+          <span class="brand-sub" id="brandSubText">2026 Tax &amp; Wealth Calculators</span>
+        </span>
+      </a>
+
+      <div class="header-meta">
+        <span class="trust-pill">Updated for Tax Year 2026</span>
+        <button type="button" class="btn btn-sm" id="themeToggleBtn" aria-label="Switch color theme">
+          Dark Mode
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="tool-nav-wrap">
+    <div class="container">
+      <nav class="tool-nav" role="tablist" aria-label="Financial calculators">
+        <button type="button" class="tool-tab" role="tab" id="tab-paycheck" aria-controls="panel-paycheck" aria-selected="true" data-tool="paycheck">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          50-State Paycheck
+        </button>
+        <button type="button" class="tool-tab" role="tab" id="tab-compound" aria-controls="panel-compound" aria-selected="false" data-tool="compound">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          Compound &amp; S&amp;P 500
+        </button>
+        <button type="button" class="tool-tab" role="tab" id="tab-mortgage" aria-controls="panel-mortgage" aria-selected="false" data-tool="mortgage">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          US Mortgage
+        </button>
+        <button type="button" class="tool-tab" role="tab" id="tab-auto" aria-controls="panel-auto" aria-selected="false" data-tool="auto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg>
+          Auto Loan
+        </button>
+        <button type="button" class="tool-tab" role="tab" id="tab-freelance" aria-controls="panel-freelance" aria-selected="false" data-tool="freelance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          1099 Freelance Tax
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <main class="container">
+    <section class="page-intro">
+      <div>
+        <h1 class="page-title" id="activeToolHeading">2026 US Paycheck &amp; 50-State Take-Home Calculator</h1>
+        <p class="page-desc" id="activeToolDesc">
+          Estimate your exact net pay after 2026 Federal income brackets, Social Security, Medicare, 401(k) contributions, and state taxes across all 50 states and DC.
+        </p>
+      </div>
+      <button type="button" class="btn btn-primary" id="copyScenarioBtn">
+        Copy Result Summary
+      </button>
+    </section>
+
+    <!-- TOOL 1: 50-STATE PAYCHECK -->
+    <section class="calc-panel" id="panel-paycheck" role="tabpanel" aria-labelledby="tab-paycheck">
+      <div class="calc-grid">
+        <div class="card">
+          <h2 class="card-heading">Income &amp; Tax Profile</h2>
+          <p class="card-sub">Adjust any figure to recalculate take-home pay in real time.</p>
+
+          <div class="form-stack">
+            <div class="field">
+              <div class="field-head">
+                <label for="paySalary">Gross Annual Salary ($)</label>
+                <span class="field-hint tabular" id="paySalaryHint">$85,000 / yr</span>
+              </div>
+              <input class="input-box tabular" type="number" id="paySalary" min="0" max="5000000" step="1000" value="85000">
+              <input class="range-slider" type="range" id="paySalarySlider" min="25000" max="350000" step="2500" value="85000" aria-label="Gross annual salary slider">
+            </div>
+
+            <div class="field-row-2">
+              <div class="field">
+                <label for="payState">US State / DC</label>
+                <select class="select-box" id="payState"></select>
+              </div>
+              <div class="field">
+                <label for="payFiling">Filing Status</label>
+                <select class="select-box" id="payFiling">
+                  <option value="single">Single</option>
+                  <option value="married">Married Filing Jointly</option>
+                  <option value="hoh">Head of Household</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="payFreq">Display Paycheck Frequency</label>
+              <select class="select-box" id="payFreq">
+                <option value="26">Bi-Weekly (26 paychecks / yr)</option>
+                <option value="24">Semi-Monthly (24 / yr)</option>
+                <option value="12">Monthly (12 / yr)</option>
+                <option value="52">Weekly (52 / yr)</option>
+                <option value="1">Annual Total</option>
+              </select>
+            </div>
+
+            <details class="advanced-details">
+              <summary>Advanced Pre-Tax Deductions (401k &amp; Health)</summary>
+              <div class="advanced-inner">
+                <div class="field">
+                  <div class="field-head">
+                    <label for="pay401k">401(k) Contribution (%)</label>
+                    <span class="field-hint tabular" id="pay401kHint">6%</span>
+                  </div>
+                  <input class="input-box tabular" type="number" id="pay401k" min="0" max="50" step="1" value="6">
+                </div>
+                <div class="field">
+                  <label for="payHealth">Annual Health / Dental Premium ($)</label>
+                  <input class="input-box tabular" type="number" id="payHealth" min="0" max="40000" step="100" value="2400">
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="card result-sticky" aria-live="polite">
+          <div class="hero-result-top">
+            <div>
+              <span class="result-label" id="payPrimaryLabel">Estimated Bi-Weekly Take-Home</span>
+              <span class="result-big tabular" id="payPrimaryValue">$0</span>
+              <div class="result-subline tabular" id="payAnnualSub">Annual Net Pay: $0</div>
+            </div>
+            <span class="trust-pill tabular" id="payStateBadge">State Tax</span>
+          </div>
+
+          <div class="kpi-strip-3">
+            <div class="kpi-mini">
+              <span>Effective Total Tax</span>
+              <strong class="tabular" id="payEffTax">0%</strong>
+            </div>
+            <div class="kpi-mini">
+              <span>Monthly Net</span>
+              <strong class="tabular" id="payMonthlyNet">$0</strong>
+            </div>
+            <div class="kpi-mini">
+              <span>Hourly Equiv. (Net)</span>
+              <strong class="tabular" id="payHourlyNet">$0/hr</strong>
+            </div>
+          </div>
+
+          <div class="visual-row">
+            <div class="donut-box">
+              <svg class="donut-svg" viewBox="0 0 148 148" id="payDonutSvg" aria-hidden="true"></svg>
+              <div class="donut-center">
+                <strong class="tabular" id="payKeepPct">0%</strong>
+                <span>Keep Rate</span>
+              </div>
+            </div>
+            <table class="breakdown-table" aria-label="Annual paycheck breakdown">
+              <tbody id="payBreakdownBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 2: COMPOUND INTEREST & S&P 500 -->
+    <section class="calc-panel" id="panel-compound" role="tabpanel" aria-labelledby="tab-compound" hidden>
+      <div class="calc-grid">
+        <div class="card">
+          <h2 class="card-heading">Investment Growth Inputs</h2>
+          <p class="card-sub">Model S&amp;P 500 index funds, Roth IRA compounding, or high-yield savings.</p>
+
+          <div class="form-stack">
+            <div class="field-row-2">
+              <div class="field">
+                <label for="cmpInitial">Starting Balance ($)</label>
+                <input class="input-box tabular" type="number" id="cmpInitial" min="0" max="10000000" step="500" value="10000">
+              </div>
+              <div class="field">
+                <label for="cmpMonthly">Monthly Contribution ($)</label>
+                <input class="input-box tabular" type="number" id="cmpMonthly" min="0" max="100000" step="50" value="500">
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-head">
+                <label for="cmpRate">Expected Annual Return (%)</label>
+                <span class="field-hint tabular" id="cmpRateHint">10.0%</span>
+              </div>
+              <input class="input-box tabular" type="number" id="cmpRate" min="0" max="30" step="0.5" value="10">
+              <div class="preset-row">
+                <button type="button" class="btn btn-sm" data-cmp-rate="4.5">HYSA 4.5%</button>
+                <button type="button" class="btn btn-sm" data-cmp-rate="7">Inflation-Adj 7%</button>
+                <button type="button" class="btn btn-sm" data-cmp-rate="10">S&amp;P 500 Avg 10%</button>
+                <button type="button" class="btn btn-sm" data-cmp-rate="14">Tech / AI 14%</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-head">
+                <label for="cmpYears">Investment Horizon (Years)</label>
+                <span class="field-hint tabular" id="cmpYearsHint">20 years</span>
+              </div>
+              <input class="input-box tabular" type="number" id="cmpYears" min="1" max="50" step="1" value="20">
+              <input class="range-slider" type="range" id="cmpYearsSlider" min="1" max="45" step="1" value="20" aria-label="Investment years slider">
+            </div>
+          </div>
+        </div>
+
+        <div class="card result-sticky" aria-live="polite">
+          <div class="hero-result-top">
+            <div>
+              <span class="result-label">Projected Future Balance</span>
+              <span class="result-big tabular" id="cmpFinalValue">$0</span>
+              <div class="result-subline tabular" id="cmpGainSub">Compound growth earned: $0</div>
+            </div>
+          </div>
+
+          <div class="kpi-strip-3">
+            <div class="kpi-mini">
+              <span>Total Contributed</span>
+              <strong class="tabular" id="cmpPrincipal">$0</strong>
+            </div>
+            <div class="kpi-mini">
+              <span>Total Interest Earned</span>
+              <strong class="tabular" id="cmpInterest">$0</strong>
+            </div>
+            <div class="kpi-mini">
+              <span>4% Safe Withdrawal</span>
+              <strong class="tabular" id="cmpSafeMonthly">$0/mo</strong>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <div class="chart-bars" id="cmpChartBars" aria-label="Growth milestone chart"></div>
+            <div class="bar-legend">
+              <span><span class="swatch" style="background:var(--accent-navy);"></span>Your Contributions</span>
+              <span><span class="swatch" style="background:var(--accent-emerald);"></span>Compound Returns</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 3: US MORTGAGE (PITI) -->
+    <section class="calc-panel" id="panel-mortgage" role="tabpanel" aria-labelledby="tab-mortgage" hidden>
+      <div class="calc-grid">
+        <div class="card">
+          <h2 class="card-heading">Home Purchase Details</h2>
+          <p class="card-sub">Full US PITI breakdown: Principal, Interest, Property Tax, Insurance &amp; HOA.</p>
+
+          <div class="form-stack">
+            <div class="field">
+              <div class="field-head">
+                <label for="mtgPrice">Home Price ($)</label>
+                <span class="field-hint tabular" id="mtgPriceHint">$420,000</span>
+              </div>
+              <input class="input-box tabular" type="number" id="mtgPrice" min="50000" max="5000000" step="5000" value="420000">
+              <input class="range-slider" type="range" id="mtgPriceSlider" min="150000" max="1500000" step="10000" value="420000" aria-label="Home price slider">
+            </div>
+
+            <div class="field-row-2">
+              <div class="field">
+                <label for="mtgDownPct">Down Payment (%)</label>
+                <input class="input-box tabular" type="number" id="mtgDownPct" min="0" max="80" step="1" value="20">
+              </div>
+              <div class="field">
+                <label for="mtgRate">Interest Rate (APR %)</label>
+                <input class="input-box tabular" type="number" id="mtgRate" min="1" max="15" step="0.125" value="6.5">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="mtgTerm">Loan Term</label>
+              <select class="select-box" id="mtgTerm">
+                <option value="30">30-Year Fixed</option>
+                <option value="20">20-Year Fixed</option>
+                <option value="15">15-Year Fixed</option>
+              </select>
+            </div>
+
+            <details class="advanced-details">
+              <summary>Property Tax, Home Insurance &amp; HOA</summary>
+              <div class="advanced-inner">
+                <div class="field-row-2">
+                  <div class="field">
+                    <label for="mtgTaxRate">Property Tax (% / yr)</label>
+                    <input class="input-box tabular" type="number" id="mtgTaxRate" min="0" max="5" step="0.1" value="1.1">
+                  </div>
+                  <div class="field">
+                    <label for="mtgIns">Home Insurance ($ / yr)</label>
+                    <input class="input-box tabular" type="number" id="mtgIns" min="0" max="15000" step="100" value="1600">
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="mtgHoa">Monthly HOA Dues ($)</label>
+                  <input class="input-box tabular" type="number" id="mtgHoa" min="0" max="3000" step="25" value="0">
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="card result-sticky" aria-live="polite">
+          <div class="hero-result-top">
+            <div>
+              <span class="result-label">Estimated Monthly Payment (PITI)</span>
+              <span class="result-big tabular" id="mtgMonthlyTotal">$0</span>
+              <div class="result-subline tabular" id="mtgLoanSub">Loan amount: $0</div>
+            </div>
+          </div>
+
+          <div class="kpi-strip-3">
+            <div class="kpi-mini">
+              <span>Down Payment</span>
+              <strong class="tabular" id="mtgDownDollar">$0</strong>
+            </div>
+            <div class="kpi-mini">
+              <span>Total Interest Paid</span>
+              <strong class="tabular" id="mtgTotalInterest">$0</strong>
+            </div>
+            <div class="kpi-mini">
+              <span>Rec. Gross Income</span>
+              <strong class="tabular" id="mtgRecIncome">$0/yr</strong>
+            </div>
+          </div>
+
+          <table class="breakdown-table" style="margin-top:1rem;" aria-label="Monthly mortgage breakdown">
+            <tbody id="mtgBreakdownBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 4: AUTO LOAN + 20/4/10 RULE -->
+    <section class="calc-panel" id="panel-auto" role="tabpanel" aria-labelledby="tab-auto" hidden>
+      <div class="calc-grid">
+        <div class="card">
+          <h2 class="card-heading">Vehicle Financing Details</h2>
+          <p class="card-sub">Check your true monthly payment against the US 20/4/10 car-buying rule.</p>
+
+          <div class="form-stack">
+            <div class="field-row-2">
+              <div class="field">
+                <label for="autoPrice">Vehicle Price ($)</label>
+                <input class="input-box tabular" type="number" id="autoPrice" min="2000" max="300000" step="500" value="38000">
+              </div>
+              <div class="field">
+                <label for="autoDown">Down Payment + Trade-In ($)</label>
+                <input class="input-box tabular" type="number" id="autoDown" min="0" max="200000" step="500" value="7600">
+              </div>
+            </div>
+
+            <div class="field-row-2">
+              <div class="field">
+                <label for="autoApr">Loan APR (%)</label>
+                <input class="input-box tabular" type="number" id="autoApr" min="0" max="25" step="0.25" value="6.9">
+              </div>
+              <div class="field">
+                <label for="autoMonths">Term (Months)</label>
+                <select class="select-box" id="autoMonths">
+                  <option value="36">36 Months (3 yrs)</option>
+                  <option value="48" selected>48 Months (4 yrs)</option>
+                  <option value="60">60 Months (5 yrs)</option>
+                  <option value="72">72 Months (6 yrs)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-row-2">
+              <div class="field">
+                <label for="autoTax">State Sales Tax (%)</label>
+                <input class="input-box tabular" type="number" id="autoTax" min="0" max="12" step="0.25" value="7.0">
+              </div>
+              <div class="field">
+                <label for="autoMonthlyIncome">Your Gross Monthly Income ($)</label>
+                <input class="input-box tabular" type="number" id="autoMonthlyIncome" min="1000" max="100000" step="250" value="7000">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card result-sticky" aria-live="polite">
+          <div class="hero-result-top">
+            <div>
+              <span class="result-label">Estimated Monthly Car Payment</span>
+              <span class="result-big tabular" id="autoMonthly">$0</span>
+              <div class="result-subline tabular" id="autoTotalSub">Total loan cost: $0</div>
+            </div>
+          </div>
+
+          <div class="kpi-strip-3">
+            <div class="kpi-mini">
+              <span>Amount Financed</span>
+              <strong class="tabular" id="autoFinanced">$0</strong>
+            </div>
+            <div class="kpi-mini">
+              <span>Total Interest</span>
+              <strong class="tabular" id="autoInterest">$0</strong>
+            </div>
+            <div class="kpi-mini">
+              <span>% of Gross Income</span>
+              <strong class="tabular" id="autoIncomePct">0%</strong>
+            </div>
+          </div>
+
+          <div class="rule-box" id="autoRuleBox"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL 5: 1099 FREELANCE QUARTERLY TAX -->
+    <section class="calc-panel" id="panel-freelance" role="tabpanel" aria-labelledby="tab-freelance" hidden>
+      <div class="calc-grid">
+        <div class="card">
+          <h2 class="card-heading">1099 / Side-Hustle Profit Inputs</h2>
+          <p class="card-sub">Estimate IRS Self-Employment tax (15.3%), federal + state tax, and quarterly safe-harbor savings.</p>
+
+          <div class="form-stack">
+            <div class="field-row-2">
+              <div class="field">
+                <label for="flRevenue">Annual 1099 Gross Revenue ($)</label>
+                <input class="input-box tabular" type="number" id="flRevenue" min="0" max="5000000" step="1000" value="95000">
+              </div>
+              <div class="field">
+                <label for="flExpenses">Business Deductions / Expenses ($)</label>
+                <input class="input-box tabular" type="number" id="flExpenses" min="0" max="2000000" step="500" value="15000">
+              </div>
+            </div>
+
+            <div class="field-row-2">
+              <div class="field">
+                <label for="flState">US State / DC</label>
+                <select class="select-box" id="flState"></select>
+              </div>
+              <div class="field">
+                <label for="flFiling">Filing Status</label>
+                <select class="select-box" id="flFiling">
+                  <option value="single">Single</option>
+                  <option value="married">Married Filing Jointly</option>
+                  <option value="hoh">Head of Household</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card result-sticky" aria-live="polite">
+          <div class="hero-result-top">
+            <div>
+              <span class="result-label">Set Aside Per Quarter (IRS Estimated)</span>
+              <span class="result-big tabular" id="flQuarterly">$0</span>
+              <div class="result-subline tabular" id="flAnnualNetSub">Net Profit After All Taxes: $0 / yr</div>
+            </div>
+          </div>
+
+          <div class="kpi-strip-3">
+            <div class="kpi-mini">
+              <span>Taxable Net Profit</span>
+              <strong class="tabular" id="flProfit">$0</strong>
+            </div>
+            <div class="kpi-mini">
+              <span>Self-Employment Tax</span>
+              <strong class="tabular" id="flSeTax">$0</strong>
+            </div>
+            <div class="kpi-mini">
+              <span>Save % of Revenue</span>
+              <strong class="tabular" id="flSavePct">0%</strong>
+            </div>
+          </div>
+
+          <table class="breakdown-table" style="margin-top:1rem;" aria-label="1099 freelance tax breakdown">
+            <tbody id="flBreakdownBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTEXTUAL NEXT STEPS & AFFILIATE OFFERS -->
+    <section class="offers-section" aria-label="Recommended next steps">
+      <div class="offers-head">
+        <h2>Smart Next Steps for Your Numbers</h2>
+        <span style="font-size:0.8rem; color:var(--text-muted);">Curated US Personal Finance Resources</span>
+      </div>
+      <div class="offers-grid" id="offersGrid"></div>
+
+      <div class="ecosystem-bar">
+        <div>
+          <strong>Level Up Your 2026 Financial &amp; Creator Systems</strong>
+          <div style="font-size:0.84rem; color:var(--text-secondary); margin-top:0.2rem;">
+            Free video walkthroughs and ready-to-use Google Sheets templates built for US earners.
+          </div>
+        </div>
+        <div class="eco-links" id="ecoLinksContainer"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <strong>Educational Disclaimer:</strong> SmartMoney US calculators provide general estimates using 2026 federal tax brackets, FICA thresholds, and state income tax structures for informational purposes only. Actual tax liability depends on local city taxes, credits, itemized deductions, and IRS rule changes. This tool does not constitute certified tax, legal, or investment advice.
+    </div>
+  </footer>
+
+  <div class="toast" id="toastBox" hidden role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="tax_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

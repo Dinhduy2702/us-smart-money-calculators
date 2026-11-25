@@ -22,6 +22,10 @@ window.SMARTMONEY_CONFIG = {
       label: "SoloTax US (LLC vs. S-Corp)",
       url: "https://dinhduy2702.github.io/us-solotax-planner/"
     },
+    propYieldAnalyzer: {
+      label: "PropYield US (Rent vs. Buy & BRRRR)",
+      url: "https://dinhduy2702.github.io/us-propyield-analyzer/"
+    },
     youtubeFinance: {
       label: "Watch US Finance Guides on YouTube",
       url: "" // AGY 3 cap nhat link kenh YT Finance EN khi lap xong

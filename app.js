@@ -886,6 +886,9 @@
     if (CONFIG.ecosystem.propYieldAnalyzer && CONFIG.ecosystem.propYieldAnalyzer.url) {
       ecoButtons.push(`<a class="btn btn-sm" href="${CONFIG.ecosystem.propYieldAnalyzer.url}" target="_blank" rel="noopener noreferrer">${CONFIG.ecosystem.propYieldAnalyzer.label}</a>`);
     }
+    if (CONFIG.ecosystem.retireSmartPlanner && CONFIG.ecosystem.retireSmartPlanner.url) {
+      ecoButtons.push(`<a class="btn btn-sm" href="${CONFIG.ecosystem.retireSmartPlanner.url}" target="_blank" rel="noopener noreferrer">${CONFIG.ecosystem.retireSmartPlanner.label}</a>`);
+    }
     if (hasYtUrl) {
       ecoButtons.push(`<a class="btn btn-sm" href="${ytOffer.url}" target="_blank" rel="noopener noreferrer">${ytOffer.label}</a>`);
     }

@@ -26,6 +26,10 @@ window.SMARTMONEY_CONFIG = {
       label: "PropYield US (Rent vs. Buy & BRRRR)",
       url: "https://dinhduy2702.github.io/us-propyield-analyzer/"
     },
+    retireSmartPlanner: {
+      label: "RetireSmart US (FIRE & Roth Ladder)",
+      url: "https://dinhduy2702.github.io/us-retiresmart-planner/"
+    },
     youtubeFinance: {
       label: "Watch US Finance Guides on YouTube",
       url: "" // AGY 3 cap nhat link kenh YT Finance EN khi lap xong

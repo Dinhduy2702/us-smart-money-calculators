@@ -1,4 +1,4 @@
-/* SmartMoney US - 2026 Tax & Wealth Calculators
+/* SmartMoney US v2.0 - Deep Interactive Fintech Edition
    Swiss Editorial Fintech Stylesheet | Locked to DESIGN_SYSTEM.md */
 
 :root {
@@ -82,6 +82,7 @@ button:not(:disabled),
 select:not(:disabled),
 summary,
 label[for],
+.toggle-check,
 input[type="range"]:not(:disabled) {
   cursor: pointer;
 }
@@ -198,7 +199,7 @@ button:disabled {
   }
 }
 
-/* Tool Switcher Navigation (Zero horizontal overflow on 390px) */
+/* Tool Switcher Navigation */
 .tool-nav-wrap {
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border-subtle);
@@ -224,7 +225,7 @@ button:disabled {
   font-family: var(--font-sans);
   font-size: 0.86rem;
   font-weight: 600;
-  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  transition: background-color 150ms ease, color 150ms ease;
 }
 
 .tool-tab svg {
@@ -260,13 +261,13 @@ button:disabled {
 
 /* Editorial Hero Header */
 .page-intro {
-  padding: 1.5rem 0 1.15rem;
+  padding: 1.4rem 0 0.85rem;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.75rem;
 }
 
-@media (min-width: 820px) {
+@media (min-width: 860px) {
   .page-intro {
     flex-direction: row;
     align-items: flex-end;
@@ -277,7 +278,7 @@ button:disabled {
 .page-title {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 1.9rem;
+  font-size: 1.85rem;
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -285,14 +286,67 @@ button:disabled {
 
 @media (min-width: 768px) {
   .page-title {
-    font-size: 2.35rem;
+    font-size: 2.3rem;
   }
 }
 
 .page-desc {
   margin: 0.35rem 0 0;
   color: var(--text-secondary);
-  max-width: 66ch;
+  max-width: 68ch;
+}
+
+.intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+/* Quick Scenario Presets Strip */
+.presets-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+  padding: 0.65rem 0.85rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.presets-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.presets-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.preset-chip {
+  min-height: 36px;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.preset-chip:hover {
+  border-color: var(--accent-emerald);
+  background: var(--accent-emerald-soft);
+  color: var(--accent-emerald);
 }
 
 /* Buttons */
@@ -308,7 +362,7 @@ button:disabled {
   background: var(--bg-surface);
   color: var(--text-primary);
   font-family: var(--font-sans);
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
   transition: background-color 150ms ease, border-color 150ms ease;
@@ -330,12 +384,12 @@ button:disabled {
 }
 
 .btn-sm {
-  min-height: 36px;
-  padding: 0.3rem 0.7rem;
+  min-height: 38px;
+  padding: 0.32rem 0.75rem;
   font-size: 0.8rem;
 }
 
-/* Two-Column Calculator Workspace (SmartAsset / NerdWallet Pattern) */
+/* Two-Column Calculator Workspace */
 .calc-panel[hidden] {
   display: none;
 }
@@ -349,7 +403,7 @@ button:disabled {
 
 @media (min-width: 960px) {
   .calc-grid {
-    grid-template-columns: 1fr 1.15fr;
+    grid-template-columns: 1fr 1.18fr;
   }
 }
 
@@ -375,7 +429,7 @@ button:disabled {
 }
 
 .card-sub {
-  margin: 0 0 1.1rem;
+  margin: 0 0 1.05rem;
   font-size: 0.84rem;
   color: var(--text-muted);
 }
@@ -384,10 +438,16 @@ button:disabled {
 .form-stack {
   display: flex;
   flex-direction: column;
-  gap: 0.95rem;
+  gap: 0.9rem;
 }
 
 .field-row-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.field-row-3 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;
@@ -397,12 +457,15 @@ button:disabled {
   .field-row-2 {
     grid-template-columns: 1fr 1fr;
   }
+  .field-row-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 0.32rem;
+  gap: 0.3rem;
 }
 
 .field-head {
@@ -413,7 +476,7 @@ button:disabled {
 }
 
 .field label {
-  font-size: 0.82rem;
+  font-size: 0.81rem;
   font-weight: 600;
   color: var(--text-secondary);
 }
@@ -434,21 +497,41 @@ button:disabled {
   background: var(--bg-input);
   color: var(--text-primary);
   font-family: var(--font-sans);
-  font-size: 0.94rem;
+  font-size: 0.93rem;
   font-weight: 500;
 }
 
 .range-slider {
   width: 100%;
-  margin-top: 0.35rem;
+  margin-top: 0.3rem;
   accent-color: var(--accent-emerald);
 }
 
 .preset-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.35rem;
   margin-top: 0.35rem;
+}
+
+.toggle-check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-canvas);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.toggle-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-emerald);
+  flex-shrink: 0;
 }
 
 .advanced-details {
@@ -459,13 +542,13 @@ button:disabled {
 }
 
 .advanced-details summary {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .advanced-inner {
-  margin-top: 0.85rem;
+  margin-top: 0.8rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -477,14 +560,14 @@ button:disabled {
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
-  padding-bottom: 1rem;
+  gap: 0.85rem;
+  padding-bottom: 0.9rem;
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .result-label {
   display: block;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -494,7 +577,7 @@ button:disabled {
 .result-big {
   display: block;
   margin-top: 0.15rem;
-  font-size: 2.25rem;
+  font-size: 2.2rem;
   font-weight: 700;
   line-height: 1.08;
   color: var(--accent-emerald);
@@ -502,7 +585,7 @@ button:disabled {
 
 @media (min-width: 768px) {
   .result-big {
-    font-size: 2.65rem;
+    font-size: 2.6rem;
   }
 }
 
@@ -512,11 +595,22 @@ button:disabled {
   color: var(--text-secondary);
 }
 
-.kpi-strip-3 {
+.kpi-strip-3,
+.kpi-strip-4 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.6rem;
-  margin-top: 1rem;
+  gap: 0.55rem;
+  margin-top: 0.9rem;
+}
+
+.kpi-strip-4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 600px) {
+  .kpi-strip-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 480px) {
@@ -529,34 +623,34 @@ button:disabled {
   background: var(--bg-canvas);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 0.65rem 0.75rem;
+  padding: 0.6rem 0.7rem;
 }
 
 .kpi-mini span {
   display: block;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   font-weight: 600;
 }
 
 .kpi-mini strong {
   display: block;
-  margin-top: 0.15rem;
-  font-size: 1.08rem;
+  margin-top: 0.12rem;
+  font-size: 1.04rem;
 }
 
-/* Donut & Stacked Bar Visuals */
+/* Donut & Breakdown */
 .visual-row {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
   align-items: center;
-  margin-top: 1.1rem;
+  margin-top: 1rem;
 }
 
 @media (min-width: 600px) {
   .visual-row {
-    grid-template-columns: 156px 1fr;
+    grid-template-columns: 152px 1fr;
   }
 }
 
@@ -597,11 +691,11 @@ button:disabled {
 .breakdown-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.87rem;
+  font-size: 0.86rem;
 }
 
 .breakdown-table td {
-  padding: 0.48rem 0.25rem;
+  padding: 0.45rem 0.2rem;
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -623,9 +717,71 @@ button:disabled {
   margin-right: 0.45rem;
 }
 
-/* Stacked Bar Chart for Compound Interest */
+/* Deep Comparison Banner & Smart Insight */
+.compare-banner {
+  margin-top: 0.95rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-navy);
+  background: var(--accent-navy-soft);
+  font-size: 0.85rem;
+}
+
+.compare-banner.is-reward {
+  border-color: var(--accent-emerald);
+  background: var(--accent-emerald-soft);
+}
+
+.compare-banner strong {
+  color: var(--text-primary);
+}
+
+.compare-delta {
+  display: inline-block;
+  margin-left: 0.3rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  font-weight: 700;
+  color: var(--accent-emerald);
+}
+
+.compare-delta.is-neg {
+  color: var(--accent-amber);
+}
+
+.insight-box {
+  margin-top: 0.85rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--accent-emerald);
+  background: var(--bg-canvas);
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+}
+
+.insight-box strong {
+  color: var(--text-primary);
+}
+
+/* Stacked PITI Horizontal Meter */
+.stacked-meter {
+  margin-top: 0.9rem;
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  display: flex;
+  background: var(--bg-elevated);
+}
+
+.stacked-meter > span {
+  height: 100%;
+  display: block;
+}
+
+/* Compound Chart */
 .chart-wrap {
-  margin-top: 1.15rem;
+  margin-top: 1rem;
   background: var(--bg-canvas);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
@@ -636,8 +792,8 @@ button:disabled {
   display: flex;
   align-items: flex-end;
   gap: 0.45rem;
-  height: 160px;
-  padding-top: 0.5rem;
+  height: 175px;
+  padding-top: 1.25rem;
 }
 
 .bar-col {
@@ -647,7 +803,13 @@ button:disabled {
   align-items: center;
   height: 100%;
   justify-content: flex-end;
-  gap: 0.3rem;
+  gap: 0.25rem;
+}
+
+.bar-val-top {
+  font-size: 0.69rem;
+  font-weight: 700;
+  color: var(--text-secondary);
 }
 
 .bar-stack {
@@ -657,6 +819,11 @@ button:disabled {
   flex-direction: column-reverse;
   border-radius: 4px 4px 0 0;
   overflow: hidden;
+  transition: transform 150ms ease;
+}
+
+.bar-col:hover .bar-stack {
+  transform: translateY(-2px);
 }
 
 .bar-seg-principal {
@@ -682,19 +849,218 @@ button:disabled {
   color: var(--text-secondary);
 }
 
-/* Callout / Rule Check */
-.rule-box {
-  margin-top: 1rem;
-  padding: 0.8rem 0.95rem;
+/* Deep Secondary Sections (Bracket Ladder, Schedules, Due Dates) */
+.deep-section {
+  margin-top: 1.15rem;
+}
+
+.deep-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.bracket-ladder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.bracket-row {
+  display: grid;
+  grid-template-columns: 62px 1fr 110px;
+  gap: 0.75rem;
+  align-items: center;
+  font-size: 0.84rem;
+}
+
+@media (max-width: 520px) {
+  .bracket-row {
+    grid-template-columns: 52px 1fr 86px;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+  }
+}
+
+.bracket-rate {
+  font-weight: 700;
+  color: var(--accent-navy);
+}
+
+.bracket-track {
+  position: relative;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.55rem;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.bracket-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: var(--accent-emerald);
+  opacity: 0.24;
+  z-index: 0;
+}
+
+.bracket-range-txt {
+  position: relative;
+  z-index: 1;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
+.bracket-tax {
+  text-align: right;
+  font-weight: 700;
+}
+
+/* Schedule Tables */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  min-width: 540px;
+}
+
+.schedule-table th {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-canvas);
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.schedule-table td {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.schedule-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.schedule-table tr.is-active-row {
+  background: var(--accent-emerald-soft);
+  font-weight: 700;
+}
+
+.status-pill {
+  display: inline-block;
+  padding: 0.14rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.status-pill.pass {
+  background: var(--accent-emerald-soft);
+  color: var(--accent-emerald);
+}
+
+.status-pill.warn {
+  background: var(--accent-amber-soft);
+  color: var(--accent-amber);
+}
+
+/* Auto 20/4/10 Pillars */
+.rule-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.95rem;
+}
+
+@media (max-width: 560px) {
+  .rule-pillars {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pillar-card {
+  padding: 0.7rem 0.75rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--accent-emerald);
   background: var(--accent-emerald-soft);
-  font-size: 0.86rem;
+  font-size: 0.8rem;
 }
 
-.rule-box.is-warn {
+.pillar-card.is-warn {
   border-color: var(--accent-amber);
   background: var(--accent-amber-soft);
+}
+
+.pillar-card strong {
+  display: block;
+  font-size: 0.86rem;
+  margin-bottom: 0.15rem;
+}
+
+/* IRS 2026 Quarterly Calendar Grid */
+.due-dates-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+}
+
+@media (min-width: 640px) {
+  .due-dates-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.due-card {
+  padding: 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-canvas);
+}
+
+.due-q {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-emerald);
+}
+
+.due-date {
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin: 0.15rem 0;
+}
+
+.due-amt {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.due-period {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
 }
 
 /* Contextual Next Steps & Affiliate Offers */
@@ -791,38 +1157,51 @@ button:disabled {
   gap: 0.5rem;
 }
 
-/* Footer & Legal Disclaimer */
+/* Footer */
 .site-footer {
   margin-top: 2rem;
   padding: 1.25rem 0 2.25rem;
   border-top: 1px solid var(--border-subtle);
   color: var(--text-muted);
   font-size: 0.8rem;
-  line-height: 1.6;
 }
 
+/* Toast */
 .toast {
   position: fixed;
-  bottom: 1rem;
   right: 1rem;
-  z-index: 80;
+  bottom: 1rem;
+  z-index: 60;
+  max-width: 340px;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-md);
   background: var(--text-primary);
   color: var(--bg-surface);
-  border-radius: var(--radius-md);
-  padding: 0.7rem 1rem;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 600;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
 }
 
-.toast[hidden] {
-  display: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
-    scroll-behavior: auto !important;
+/* Clean Print / PDF Report Mode */
+@media print {
+  .tool-nav-wrap,
+  .intro-actions,
+  .presets-bar,
+  .offers-section,
+  #themeToggleBtn,
+  .toast {
+    display: none !important;
+  }
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #CCCCCC !important;
+    break-inside: avoid;
+  }
+  .result-sticky {
+    position: static !important;
   }
 }

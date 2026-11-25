@@ -18,6 +18,10 @@ window.SMARTMONEY_CONFIG = {
       label: "DebtFree US Payoff Planner",
       url: "https://dinhduy2702.github.io/us-debt-free-planner/"
     },
+    soloTaxPlanner: {
+      label: "SoloTax US (LLC vs. S-Corp)",
+      url: "https://dinhduy2702.github.io/us-solotax-planner/"
+    },
     youtubeFinance: {
       label: "Watch US Finance Guides on YouTube",
       url: "" // AGY 3 cap nhat link kenh YT Finance EN khi lap xong

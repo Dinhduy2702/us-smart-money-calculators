@@ -880,6 +880,9 @@
     if (CONFIG.ecosystem.debtFreePlanner && CONFIG.ecosystem.debtFreePlanner.url) {
       ecoButtons.push(`<a class="btn btn-sm" href="${CONFIG.ecosystem.debtFreePlanner.url}" target="_blank" rel="noopener noreferrer">${CONFIG.ecosystem.debtFreePlanner.label}</a>`);
     }
+    if (CONFIG.ecosystem.soloTaxPlanner && CONFIG.ecosystem.soloTaxPlanner.url) {
+      ecoButtons.push(`<a class="btn btn-sm" href="${CONFIG.ecosystem.soloTaxPlanner.url}" target="_blank" rel="noopener noreferrer">${CONFIG.ecosystem.soloTaxPlanner.label}</a>`);
+    }
     if (hasYtUrl) {
       ecoButtons.push(`<a class="btn btn-sm" href="${ytOffer.url}" target="_blank" rel="noopener noreferrer">${ytOffer.label}</a>`);
     }

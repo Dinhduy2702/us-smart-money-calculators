@@ -70,7 +70,8 @@
         </p>
       </div>
       <div class="intro-actions">
-        <button type="button" class="btn btn-primary btn-sm" id="copyScenarioBtn">Copy Summary</button>
+        <button type="button" class="btn btn-primary btn-sm" id="shareLinkBtn">Share Link</button>
+        <button type="button" class="btn btn-sm" id="copyScenarioBtn">Copy Summary</button>
         <button type="button" class="btn btn-sm" id="printReportBtn">Print / PDF</button>
         <button type="button" class="btn btn-sm" id="resetDefaultsBtn">Reset</button>
       </div>
@@ -199,6 +200,7 @@
 
           <div class="compare-banner" id="payCompareBox"></div>
           <div class="insight-box" id="payInsightBox"></div>
+          <div class="result-cta-card" data-result-cta="paycheck"></div>
         </div>
       </div>
 
@@ -307,6 +309,7 @@
           </div>
 
           <div class="insight-box" id="cmpInsightBox"></div>
+          <div class="result-cta-card" data-result-cta="compound"></div>
         </div>
       </div>
 
@@ -437,6 +440,7 @@
           </table>
 
           <div class="insight-box" id="mtgInsightBox"></div>
+          <div class="result-cta-card" data-result-cta="mortgage"></div>
         </div>
       </div>
 
@@ -539,6 +543,7 @@
 
           <div class="rule-pillars" id="autoRuleGrid"></div>
           <div class="insight-box" id="autoInsightBox"></div>
+          <div class="result-cta-card" data-result-cta="auto"></div>
         </div>
       </div>
 
@@ -601,7 +606,7 @@
             </div>
 
             <details class="advanced-details" open>
-              <summary>Quick Write-Off Builder (Adds to Deductions)</summary>
+              <summary>Quick Write-Off Builder (Mileage auto-calculated at $0.70/mi)</summary>
               <div class="advanced-inner">
                 <div class="field-row-3">
                   <div class="field">
@@ -609,11 +614,11 @@
                     <input class="input-box tabular" type="number" id="flHomeOffice" min="0" max="50000" step="250" value="1500">
                   </div>
                   <div class="field">
-                    <label for="flGear">Laptop / Software ($)</label>
+                    <label for="flGear">Laptop &amp; Software ($)</label>
                     <input class="input-box tabular" type="number" id="flGear" min="0" max="100000" step="250" value="2500">
                   </div>
                   <div class="field">
-                    <label for="flMiles">Business Miles ($0.70/mi)</label>
+                    <label for="flMiles">Business Miles</label>
                     <input class="input-box tabular" type="number" id="flMiles" min="0" max="100000" step="100" value="1500">
                   </div>
                 </div>
@@ -651,6 +656,7 @@
           </table>
 
           <div class="insight-box" id="flInsightBox"></div>
+          <div class="result-cta-card" data-result-cta="freelance"></div>
         </div>
       </div>
 

@@ -19,8 +19,8 @@ window.SMARTMONEY_CONFIG = {
       url: "" // AGY 3 cap nhat link kenh YT Finance EN khi lap xong
     },
     gumroadSheets: {
-      label: "Get the 2026 US Net Worth & Budget Sheets",
-      url: "" // AGY 5 cap nhat link Gumroad US Finance Sheets khi xong
+      label: "US Personal Finance & Wealth OS (2026 Sheets)",
+      url: "" // AGY 5 cap nhat link Gumroad SP #2 (US Personal Finance & Wealth OS) khi xong
     },
     gumroadYtOs: {
       label: "YouTube Empire OS 2026 (Creator Edition)",

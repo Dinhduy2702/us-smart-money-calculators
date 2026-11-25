@@ -68,6 +68,52 @@
     "flRevenue", "flExpenses", "flState", "flFiling", "flHomeOffice", "flGear", "flMiles"
   ];
 
+  const URL_PARAM_MAP = {
+    paycheck: {
+      salary: "paySalary", state: "payState", compare: "payCompareState",
+      filing: "payFiling", freq: "payFreq", k401: "pay401k", hsa: "payHsa", health: "payHealth"
+    },
+    compound: {
+      initial: "cmpInitial", monthly: "cmpMonthly", rate: "cmpRate",
+      years: "cmpYears", inflation: "cmpInflation", bench: "cmpCompareMode"
+    },
+    mortgage: {
+      price: "mtgPrice", down: "mtgDownPct", rate: "mtgRate", term: "mtgTerm",
+      extra: "mtgExtraMonthly", biweekly: "mtgBiweekly", tax: "mtgTaxRate", ins: "mtgIns", hoa: "mtgHoa"
+    },
+    auto: {
+      price: "autoPrice", down: "autoDown", apr: "autoApr",
+      months: "autoMonths", tax: "autoTax", income: "autoMonthlyIncome"
+    },
+    freelance: {
+      rev: "flRevenue", exp: "flExpenses", state: "flState", filing: "flFiling",
+      office: "flHomeOffice", gear: "flGear", miles: "flMiles"
+    }
+  };
+
+  const RESULT_CTA_COPY = {
+    paycheck: {
+      title: "Turn This Paycheck Into an Automated 2026 Budget & Net Worth Plan",
+      desc: "Track take-home pay, 50/30/20 buckets, 401(k) growth, and FIRE milestones automatically in Google Sheets."
+    },
+    compound: {
+      title: "Track Your Real S&P 500 Portfolio & FIRE Number Automatically",
+      desc: "Replace scattered spreadsheets with the US Personal Finance & Wealth OS (2026 Google Sheets)."
+    },
+    mortgage: {
+      title: "Track Home Equity, Extra Payments & Total Net Worth in One Sheet",
+      desc: "Monitor mortgage payoff progress alongside your savings and investments in Google Sheets."
+    },
+    auto: {
+      title: "Keep Car Payments Under 10% With a Full Monthly Cash-Flow OS",
+      desc: "Track auto loans, debt snowball payoff, and monthly savings rate inside one automated Google Sheet."
+    },
+    freelance: {
+      title: "Track 1099 Income, Business Write-Offs & Quarterly IRS Reserves",
+      desc: "Organize freelance revenue, deductions, and net worth in the US Personal Finance & Wealth OS."
+    }
+  };
+
   let activeTool = "paycheck";
   let lastSummaryText = "";
   let toastTimer = null;
@@ -145,6 +191,42 @@
     $("paySalarySlider").value = Math.min(350000, Math.max(25000, Number($("paySalary").value) || 25000));
     $("cmpYearsSlider").value = Math.min(45, Math.max(1, Number($("cmpYears").value) || 1));
     $("mtgPriceSlider").value = Math.min(1500000, Math.max(150000, Number($("mtgPrice").value) || 150000));
+  }
+
+  /* Shareable URL Query Params (?tab=...&salary=...&state=...) */
+  function buildShareUrl() {
+    const params = new URLSearchParams();
+    params.set("tab", activeTool);
+    const map = URL_PARAM_MAP[activeTool] || {};
+    Object.entries(map).forEach(([paramKey, elId]) => {
+      const el = $(elId);
+      if (!el) return;
+      const val = el.type === "checkbox" ? (el.checked ? "1" : "0") : String(el.value);
+      params.set(paramKey, val);
+    });
+    const base = window.location.origin + window.location.pathname;
+    return `${base}?${params.toString()}`;
+  }
+
+  function applyUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get("tab");
+    const targetTab = TOOL_META[tabParam] ? tabParam : null;
+    if (!targetTab) return null;
+
+    const map = URL_PARAM_MAP[targetTab] || {};
+    Object.entries(map).forEach(([paramKey, elId]) => {
+      if (!params.has(paramKey)) return;
+      const el = $(elId);
+      if (!el) return;
+      const raw = params.get(paramKey);
+      if (el.type === "checkbox") {
+        el.checked = raw === "1" || raw === "true";
+      } else {
+        el.value = raw;
+      }
+    });
+    return targetTab;
   }
 
   /* Federal Progressive Tax Engine (2026) with Per-Bracket Breakdown */
@@ -745,8 +827,7 @@
 
     const ecoItems = [
       CONFIG.ecosystem.youtubeFinance,
-      CONFIG.ecosystem.gumroadSheets,
-      CONFIG.ecosystem.gumroadYtOs
+      CONFIG.ecosystem.gumroadSheets
     ];
 
     $("ecoLinksContainer").innerHTML = ecoItems.map((item) => {
@@ -756,6 +837,24 @@
       }
       return `<button type="button" class="btn btn-sm" disabled title="Add URL in config.js">${item.label} (Soon)</button>`;
     }).join("");
+
+    // Render Contextual In-Result CTA (SmartAsset / NerdWallet pattern -> AGY 5 SP #2 slot)
+    const sheetOffer = CONFIG.ecosystem.gumroadSheets;
+    const hasSheetUrl = Boolean(sheetOffer.url && sheetOffer.url.trim());
+    document.querySelectorAll("[data-result-cta]").forEach((box) => {
+      const toolKey = box.dataset.resultCta;
+      const copy = RESULT_CTA_COPY[toolKey] || RESULT_CTA_COPY.paycheck;
+      const ctaControl = hasSheetUrl
+        ? `<a class="btn btn-primary btn-sm" href="${sheetOffer.url}" target="_blank" rel="noopener noreferrer">${sheetOffer.label}</a>`
+        : `<button type="button" class="btn btn-sm" disabled title="Slot ready for AGY 5 SP #2 in config.js">US Finance &amp; Wealth OS (Soon)</button>`;
+      box.innerHTML = `
+        <div class="result-cta-copy">
+          <strong>${copy.title}</strong>
+          <p>${copy.desc}</p>
+        </div>
+        <div class="result-cta-action">${ctaControl}</div>
+      `;
+    });
   }
 
   function switchTool(toolId, updateHash) {
@@ -805,6 +904,7 @@
     $("flState").innerHTML = buildStateOpts("CA");
 
     restoreInputs();
+    const urlTab = applyUrlParams();
     syncSlidersFromInputs();
     applyTheme(localStorage.getItem(THEME_KEY) || "light");
 
@@ -815,6 +915,18 @@
     $("themeToggleBtn").addEventListener("click", () => {
       const cur = document.documentElement.getAttribute("data-theme") || "light";
       applyTheme(cur === "dark" ? "light" : "dark");
+    });
+
+    $("shareLinkBtn").addEventListener("click", () => {
+      const shareUrl = buildShareUrl();
+      history.replaceState(null, "", shareUrl);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          showToast("Shareable link copied to clipboard!");
+        }).catch(() => showToast("Share link updated in address bar."));
+      } else {
+        showToast("Share link updated in address bar.");
+      }
     });
 
     $("copyScenarioBtn").addEventListener("click", () => {
@@ -905,7 +1017,8 @@
     ["flRevenue", "flExpenses", "flState", "flFiling", "flHomeOffice", "flGear", "flMiles"].forEach((id) => bind(id, updateFreelance));
 
     const initialHash = (window.location.hash || "").replace("#", "");
-    switchTool(TOOL_META[initialHash] ? initialHash : "paycheck", false);
+    const startTab = urlTab || (TOOL_META[initialHash] ? initialHash : "paycheck");
+    switchTool(startTab, false);
   }
 
   init();

@@ -63,7 +63,7 @@
   const SAVED_FIELDS = [
     "paySalary", "payState", "payCompareState", "payFiling", "payFreq", "pay401k", "payHsa", "payHealth",
     "cmpInitial", "cmpMonthly", "cmpRate", "cmpYears", "cmpInflation", "cmpCompareMode",
-    "mtgPrice", "mtgDownPct", "mtgRate", "mtgTerm", "mtgExtraMonthly", "mtgBiweekly", "mtgTaxRate", "mtgIns", "mtgHoa",
+    "mtgPrice", "mtgDownPct", "mtgRate", "mtgTerm", "mtgExtraMonthly", "mtgBiweekly", "mtgTaxRate", "mtgIns", "mtgHoa", "mtgAnnualIncome", "mtgMonthlyDebt",
     "autoPrice", "autoDown", "autoApr", "autoMonths", "autoTax", "autoMonthlyIncome",
     "flRevenue", "flExpenses", "flState", "flFiling", "flHomeOffice", "flGear", "flMiles"
   ];
@@ -79,7 +79,8 @@
     },
     mortgage: {
       price: "mtgPrice", down: "mtgDownPct", rate: "mtgRate", term: "mtgTerm",
-      extra: "mtgExtraMonthly", biweekly: "mtgBiweekly", tax: "mtgTaxRate", ins: "mtgIns", hoa: "mtgHoa"
+      extra: "mtgExtraMonthly", biweekly: "mtgBiweekly", tax: "mtgTaxRate", ins: "mtgIns", hoa: "mtgHoa",
+      inc: "mtgAnnualIncome", debt: "mtgMonthlyDebt"
     },
     auto: {
       price: "autoPrice", down: "autoDown", apr: "autoApr",
@@ -119,6 +120,7 @@
   let toastTimer = null;
   let lastCmpSchedule = [];
   let lastMtgSchedule = [];
+  let lastMaxAffordablePrice = 0;
 
   const $ = (id) => document.getElementById(id);
 
@@ -618,6 +620,32 @@
       : `Your 20%+ down payment eliminates Private Mortgage Insurance (PMI), saving roughly $150 to $300 every month.`;
     $("mtgInsightBox").innerHTML = `<strong>Affordability Check (28% Rule):</strong> Lenders recommend keeping total housing costs at or below 28% of gross income (<strong>${fmtUSD(recIncome)}/yr</strong> household income for this home). ${pmiNote}`;
 
+    // Reverse Affordability Calculator (28/36 Rule)
+    const annualInc = Math.max(0, Number($("mtgAnnualIncome").value) || 0);
+    const otherDebt = Math.max(0, Number($("mtgMonthlyDebt").value) || 0);
+    const grossMo = annualInc / 12;
+    const safeCap = Math.max(0, Math.min(grossMo * 0.28, grossMo * 0.36 - otherDebt));
+    const netForPiti = Math.max(0, safeCap - monthlyIns - hoa);
+    const rMo = apr / 12;
+    const nMo = termYears * 12;
+    const piFactor = rMo > 0 ? (rMo * Math.pow(1 + rMo, nMo)) / (Math.pow(1 + rMo, nMo) - 1) : 1 / nMo;
+    const ltv = Math.max(0.05, 1 - downPct / 100);
+    const pmiFactor = downPct < 20 ? (0.0065 / 12) * ltv : 0;
+    const monthlyPerDollarPrice = ltv * piFactor + (propTaxRate / 12) + pmiFactor;
+    const maxPrice = monthlyPerDollarPrice > 0 ? Math.floor((netForPiti / monthlyPerDollarPrice) / 500) * 500 : 0;
+    lastMaxAffordablePrice = Math.max(0, maxPrice);
+
+    $("mtgMaxHomePrice").textContent = fmtUSD(lastMaxAffordablePrice);
+    $("mtgSafeBudget").textContent = `${fmtUSD(safeCap)}/mo`;
+    const statusEl = $("mtgAffordStatus");
+    if (totalMonthly <= safeCap) {
+      statusEl.className = "status-pill pass";
+      statusEl.textContent = "Within 28/36 Budget";
+    } else {
+      statusEl.className = "status-pill warn";
+      statusEl.textContent = `Over by ${fmtUSD(totalMonthly - safeCap)}/mo`;
+    }
+
     $("mtgScheduleBody").innerHTML = accelSim.yearly.map((r) => `
       <tr>
         <td>Year ${r.year}</td>
@@ -802,16 +830,34 @@
     });
   }
 
-  /* Contextual Affiliates & Ecosystem Links */
+  /* Contextual Affiliates, Actionable Checklists & Ecosystem Links (Zero "Coming Soon" labels) */
+  function openWealthPreviewModal() {
+    const modal = $("wealthOsModal");
+    if (modal && typeof modal.showModal === "function") {
+      modal.showModal();
+    } else {
+      showToast("US Personal Finance & Wealth OS preview is ready.");
+    }
+  }
+
   function renderOffers() {
     const matched = CONFIG.affiliates.filter((a) => a.context.includes(activeTool));
     const displayList = matched.length >= 3 ? matched.slice(0, 3) : CONFIG.affiliates.slice(0, 3);
 
     $("offersGrid").innerHTML = displayList.map((offer) => {
       const hasUrl = Boolean(offer.url && offer.url.trim());
-      const btnHtml = hasUrl
-        ? `<a class="btn btn-primary btn-sm" href="${offer.url}" target="_blank" rel="noopener noreferrer sponsored">${offer.ctaLabel}</a>`
-        : `<button type="button" class="btn btn-sm" disabled title="Add affiliate URL in config.js">Partner Link Coming Soon</button>`;
+      let actionHtml = "";
+      if (hasUrl) {
+        actionHtml = `<a class="btn btn-primary btn-sm" href="${offer.url}" target="_blank" rel="noopener noreferrer sponsored">${offer.ctaLabel}</a>`;
+      } else {
+        const itemsHtml = (offer.checklist || []).map((line) => `<li>${line}</li>`).join("");
+        actionHtml = `
+          <details class="offer-guide">
+            <summary class="btn btn-sm">${offer.checklistTitle || "View 2026 Checklist"}</summary>
+            <ul class="offer-guide-list">${itemsHtml}</ul>
+          </details>
+        `;
+      }
 
       return `
         <article class="offer-card">
@@ -820,33 +866,35 @@
             <h3>${offer.title}</h3>
             <p>${offer.summary}</p>
           </div>
-          <div>${btnHtml}</div>
+          <div>${actionHtml}</div>
         </article>
       `;
     }).join("");
 
-    const ecoItems = [
-      CONFIG.ecosystem.youtubeFinance,
-      CONFIG.ecosystem.gumroadSheets
-    ];
+    const sheetOffer = CONFIG.ecosystem.gumroadSheets;
+    const ytOffer = CONFIG.ecosystem.youtubeFinance;
+    const hasSheetUrl = Boolean(sheetOffer.url && sheetOffer.url.trim());
+    const hasYtUrl = Boolean(ytOffer.url && ytOffer.url.trim());
 
-    $("ecoLinksContainer").innerHTML = ecoItems.map((item) => {
-      const hasUrl = Boolean(item.url && item.url.trim());
-      if (hasUrl) {
-        return `<a class="btn btn-sm btn-primary" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.label}</a>`;
-      }
-      return `<button type="button" class="btn btn-sm" disabled title="Add URL in config.js">${item.label} (Soon)</button>`;
-    }).join("");
+    const ecoButtons = [];
+    if (hasYtUrl) {
+      ecoButtons.push(`<a class="btn btn-sm" href="${ytOffer.url}" target="_blank" rel="noopener noreferrer">${ytOffer.label}</a>`);
+    }
+    if (hasSheetUrl) {
+      ecoButtons.push(`<a class="btn btn-sm btn-primary" href="${sheetOffer.url}" target="_blank" rel="noopener noreferrer">${sheetOffer.label}</a>`);
+    } else {
+      ecoButtons.push(`<button type="button" class="btn btn-sm btn-primary" data-open-wealth-modal="1">Preview 2026 Wealth OS (Free Lite)</button>`);
+      ecoButtons.push(`<button type="button" class="btn btn-sm" data-print-eco="1">Save 2026 Report (PDF)</button>`);
+    }
+    $("ecoLinksContainer").innerHTML = ecoButtons.join("");
 
     // Render Contextual In-Result CTA (SmartAsset / NerdWallet pattern -> AGY 5 SP #2 slot)
-    const sheetOffer = CONFIG.ecosystem.gumroadSheets;
-    const hasSheetUrl = Boolean(sheetOffer.url && sheetOffer.url.trim());
     document.querySelectorAll("[data-result-cta]").forEach((box) => {
       const toolKey = box.dataset.resultCta;
       const copy = RESULT_CTA_COPY[toolKey] || RESULT_CTA_COPY.paycheck;
       const ctaControl = hasSheetUrl
         ? `<a class="btn btn-primary btn-sm" href="${sheetOffer.url}" target="_blank" rel="noopener noreferrer">${sheetOffer.label}</a>`
-        : `<button type="button" class="btn btn-sm" disabled title="Slot ready for AGY 5 SP #2 in config.js">US Finance &amp; Wealth OS (Soon)</button>`;
+        : `<button type="button" class="btn btn-primary btn-sm" data-open-wealth-modal="1">Preview 2026 Wealth OS (Free Lite)</button>`;
       box.innerHTML = `
         <div class="result-cta-copy">
           <strong>${copy.title}</strong>
@@ -854,6 +902,13 @@
         </div>
         <div class="result-cta-action">${ctaControl}</div>
       `;
+    });
+
+    document.querySelectorAll("[data-open-wealth-modal]").forEach((btn) => {
+      btn.addEventListener("click", openWealthPreviewModal);
+    });
+    document.querySelectorAll("[data-print-eco]").forEach((btn) => {
+      btn.addEventListener("click", () => window.print());
     });
   }
 
@@ -1011,7 +1066,28 @@
       updateMortgage();
       saveInputs();
     });
-    ["mtgDownPct", "mtgRate", "mtgTerm", "mtgExtraMonthly", "mtgBiweekly", "mtgTaxRate", "mtgIns", "mtgHoa"].forEach((id) => bind(id, updateMortgage));
+    ["mtgDownPct", "mtgRate", "mtgTerm", "mtgExtraMonthly", "mtgBiweekly", "mtgTaxRate", "mtgIns", "mtgHoa", "mtgAnnualIncome", "mtgMonthlyDebt"].forEach((id) => bind(id, updateMortgage));
+
+    $("mtgApplyMaxBtn").addEventListener("click", () => {
+      if (lastMaxAffordablePrice > 0) {
+        $("mtgPrice").value = lastMaxAffordablePrice;
+        $("mtgPriceSlider").value = Math.min(1500000, Math.max(150000, lastMaxAffordablePrice));
+        updateMortgage();
+        saveInputs();
+        showToast(`Applied 28/36 max home price: ${fmtUSD(lastMaxAffordablePrice)}`);
+      }
+    });
+
+    const closeModal = () => {
+      const m = $("wealthOsModal");
+      if (m && m.open) m.close();
+    };
+    $("closeWealthModalBtn").addEventListener("click", closeModal);
+    $("modalCloseFooterBtn").addEventListener("click", closeModal);
+    $("modalPrintBtn").addEventListener("click", () => {
+      closeModal();
+      window.print();
+    });
 
     ["autoPrice", "autoDown", "autoApr", "autoMonths", "autoTax", "autoMonthlyIncome"].forEach((id) => bind(id, updateAuto));
     ["flRevenue", "flExpenses", "flState", "flFiling", "flHomeOffice", "flGear", "flMiles"].forEach((id) => bind(id, updateFreelance));

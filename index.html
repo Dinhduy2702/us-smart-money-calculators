@@ -70,9 +70,9 @@
         </p>
       </div>
       <div class="intro-actions">
-        <button type="button" class="btn btn-primary btn-sm" id="shareLinkBtn">Share Link</button>
-        <button type="button" class="btn btn-sm" id="copyScenarioBtn">Copy Summary</button>
-        <button type="button" class="btn btn-sm" id="printReportBtn">Print / PDF</button>
+        <button type="button" class="btn btn-primary btn-sm" id="shareLinkBtn">Share<span class="hide-xs"> Link</span></button>
+        <button type="button" class="btn btn-sm" id="copyScenarioBtn">Copy<span class="hide-xs"> Summary</span></button>
+        <button type="button" class="btn btn-sm" id="printReportBtn">Print<span class="hide-xs"> / PDF</span></button>
         <button type="button" class="btn btn-sm" id="resetDefaultsBtn">Reset</button>
       </div>
     </section>
@@ -440,6 +440,38 @@
           </table>
 
           <div class="insight-box" id="mtgInsightBox"></div>
+
+          <div class="afford-box">
+            <div class="afford-head">
+              <div>
+                <strong>Reverse Check: Max Home Price You Can Afford (28/36 Rule)</strong>
+                <span class="afford-sub">Based on your annual income, existing monthly debts, and current loan terms.</span>
+              </div>
+              <button type="button" class="btn btn-sm" id="mtgApplyMaxBtn">Apply Max Price</button>
+            </div>
+            <div class="field-row-2" style="margin-top:0.65rem;">
+              <div class="field">
+                <label for="mtgAnnualIncome">Annual Household Income ($)</label>
+                <input class="input-box tabular" type="number" id="mtgAnnualIncome" min="15000" max="2000000" step="2500" value="120000">
+              </div>
+              <div class="field">
+                <label for="mtgMonthlyDebt">Other Monthly Debts ($)</label>
+                <input class="input-box tabular" type="number" id="mtgMonthlyDebt" min="0" max="25000" step="50" value="400">
+              </div>
+            </div>
+            <div class="afford-result-row">
+              <div>
+                <span class="afford-label">Max Home Price (28/36)</span>
+                <strong class="afford-val tabular" id="mtgMaxHomePrice">$0</strong>
+              </div>
+              <div>
+                <span class="afford-label">Safe Monthly PITI Cap</span>
+                <strong class="afford-val tabular" id="mtgSafeBudget">$0/mo</strong>
+              </div>
+              <span class="status-pill pass" id="mtgAffordStatus">Within Budget</span>
+            </div>
+          </div>
+
           <div class="result-cta-card" data-result-cta="mortgage"></div>
         </div>
       </div>
@@ -696,6 +728,29 @@
       <strong>Educational Disclaimer:</strong> SmartMoney US calculators provide general estimates using 2026 federal tax brackets, FICA thresholds, and state income tax structures for informational purposes only. Actual tax liability depends on local city taxes, credits, itemized deductions, and IRS rule changes. This tool does not constitute certified tax, legal, or investment advice.
     </div>
   </footer>
+
+  <dialog class="wealth-modal" id="wealthOsModal" aria-labelledby="wealthOsModalTitle">
+    <div class="wealth-modal-head">
+      <div>
+        <span class="offer-badge">2026 Google Sheets System</span>
+        <h2 id="wealthOsModalTitle">US Personal Finance &amp; Wealth OS (Free Lite Preview)</h2>
+      </div>
+      <button type="button" class="btn btn-sm" id="closeWealthModalBtn" aria-label="Close preview">Close</button>
+    </div>
+    <p class="wealth-modal-desc">
+      Built to pair directly with SmartMoney US calculators so your paycheck, 50/30/20 budget, S&amp;P 500 FIRE target, and 1099 quarterly tax reserves stay synced in one clean Google Sheet.
+    </p>
+    <ul class="wealth-modal-list">
+      <li><strong>50-State Paycheck &amp; 50/30/20 Budget:</strong> Auto-splits every biweekly paycheck into Needs, Wants, and Investing.</li>
+      <li><strong>S&amp;P 500 &amp; FIRE Milestone Tracker:</strong> Live 4% Safe Withdrawal countdown and inflation-adjusted net worth chart.</li>
+      <li><strong>Home Equity &amp; Debt Snowball Tab:</strong> Tracks extra mortgage principal and auto loan 20/4/10 compliance.</li>
+      <li><strong>1099 Quarterly Tax Vault:</strong> Logs business write-offs, $0.70/mi mileage, and IRS 1040-ES due dates.</li>
+    </ul>
+    <div class="wealth-modal-actions">
+      <button type="button" class="btn btn-primary btn-sm" id="modalPrintBtn">Save Current Report (PDF)</button>
+      <button type="button" class="btn btn-sm" id="modalCloseFooterBtn">Back to Calculator</button>
+    </div>
+  </dialog>
 
   <div class="toast" id="toastBox" hidden role="status" aria-live="polite"></div>
 

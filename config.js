@@ -35,6 +35,13 @@ window.SMARTMONEY_CONFIG = {
       title: "High-Yield Savings Accounts (FDIC Insured)",
       summary: "Keep your emergency fund and quarterly tax reserves earning competitive APY instead of sitting in a 0.01% checking account.",
       ctaLabel: "Compare Top HYSA Rates",
+      checklistTitle: "2026 HYSA Selection Checklist",
+      checklist: [
+        "Target 4.25% to 5.00% APY with no teaser-rate expiration.",
+        "Confirm FDIC or NCUA insurance up to $250,000 per depositor.",
+        "Require $0 monthly maintenance fees and $0 minimum balance.",
+        "Check for fast 1 to 2 business day ACH transfers to checking."
+      ],
       url: "" // Dan link Affiliate HYSA (SoFi / Ally / Marcus / Wealthfront)
     },
     {
@@ -44,6 +51,13 @@ window.SMARTMONEY_CONFIG = {
       title: "Commission-Free S&P 500 & IRA Brokerages",
       summary: "Automate monthly contributions into low-cost index ETFs and tax-advantaged Roth IRA accounts.",
       ctaLabel: "Compare Investing Platforms",
+      checklistTitle: "Low-Cost Index ETF Checklist",
+      checklist: [
+        "Pick broad index ETFs with expense ratios under 0.05% (e.g., VOO, VTI, SPLG).",
+        "Enable automated recurring buys every payday (dollar-cost averaging).",
+        "Prioritize tax-free Roth IRA ($7,000/yr cap) before taxable brokerage.",
+        "Verify $0 stock/ETF commissions and fractional share support."
+      ],
       url: "" // Dan link Affiliate Brokerage (M1 / Webull / Fidelity / Robinhood)
     },
     {
@@ -53,6 +67,13 @@ window.SMARTMONEY_CONFIG = {
       title: "2026 Federal & 50-State Online Tax Filing",
       summary: "File W-2 and 1099 freelance returns accurately with built-in deduction checks and quarterly estimate reminders.",
       ctaLabel: "Compare Tax Filing Tools",
+      checklistTitle: "Avoid IRS 1040-ES Penalties Checklist",
+      checklist: [
+        "Use IRS Safe Harbor: pay 100% of prior year tax (110% if AGI > $150k).",
+        "Pay quarterly estimates free via IRS Direct Pay (no card fees).",
+        "Log home office, software, and $0.70/mi business mileage monthly.",
+        "Auto-move 25% to 30% of every 1099 invoice into a dedicated HYSA."
+      ],
       url: "" // Dan link Affiliate Tax Software (TurboTax / FreeTaxUSA / H&R Block)
     },
     {
@@ -62,6 +83,13 @@ window.SMARTMONEY_CONFIG = {
       title: "Compare Today's 30-Year Mortgage & Auto APRs",
       summary: "Even a 0.50% lower interest rate on a $400,000 mortgage can save over $40,000 in lifetime interest.",
       ctaLabel: "Check Current Lender Rates",
+      checklistTitle: "Rate-Shopping Playbook (2026)",
+      checklist: [
+        "Collect 3+ official Loan Estimates within 14 days (counts as 1 credit pull).",
+        "Compare APR (includes origination fees), not just the headline interest rate.",
+        "Confirm $0 prepayment penalty so extra principal payments stay free.",
+        "Check local credit unions for auto loans (often 1% to 2% below dealer APR)."
+      ],
       url: "" // Dan link Affiliate LendingTree / Bankrate / Credible
     }
   ]

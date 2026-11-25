@@ -31,16 +31,16 @@ window.SMARTMONEY_CONFIG = {
       url: "https://dinhduy2702.github.io/us-retiresmart-planner/"
     },
     youtubeFinance: {
-      label: "Watch US Finance Guides on YouTube",
-      url: "" // AGY 3 cap nhat link kenh YT Finance EN khi lap xong
+      label: "Watch The Ledger on YouTube",
+      url: "https://www.youtube.com/@TheLedgerCapital"
     },
     gumroadSheets: {
-      label: "US Personal Finance & Wealth OS (2026 Sheets)",
-      url: "" // AGY 5 cap nhat link Gumroad SP #2 (US Personal Finance & Wealth OS) khi xong
+      label: "Get Wealth OS ($0 Lite / $19 Full)",
+      url: "https://897833387907.gumroad.com/l/us-personal-finance-wealth-os-2026"
     },
     gumroadYtOs: {
-      label: "YouTube Empire OS 2026 (Creator Edition)",
-      url: "https://897833387907.gumroad.com/l/youtube-empire-os-2026"
+      label: "US Money & 1099 Bundle ($29 · Save $14)",
+      url: "https://897833387907.gumroad.com/l/us-money-1099-tax-bundle-2026"
     }
   },
   affiliates: [

@@ -212,9 +212,23 @@
 
   function applyUrlParams() {
     const params = new URLSearchParams(window.location.search);
+    if ([...params.keys()].length === 0) return null;
+
+    const stateParam = (params.get("state") || "").toUpperCase();
+    if (stateParam && (TAX.states || []).some((s) => s.code === stateParam)) {
+      if ($("payState")) $("payState").value = stateParam;
+      if ($("flState")) $("flState").value = stateParam;
+      if ($("payCompareState") && $("payCompareState").value === stateParam) {
+        $("payCompareState").value = stateParam === "TX" ? "CA" : "TX";
+      }
+    }
+    if (params.has("salary") && $("paySalary")) {
+      $("paySalary").value = params.get("salary");
+    }
+
     const tabParam = params.get("tab");
     const targetTab = TOOL_META[tabParam] ? tabParam : null;
-    if (!targetTab) return null;
+    if (!targetTab) return stateParam ? "paycheck" : null;
 
     const map = URL_PARAM_MAP[targetTab] || {};
     Object.entries(map).forEach(([paramKey, elId]) => {

@@ -36,6 +36,46 @@
   }
 }
   </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much is take-home pay on a $100,000 salary in a no-income-tax state?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Using official 2026 IRS brackets (Rev. Proc. 2025-32, $16,100 single standard deduction), a single W-2 earner making $100,000 in a 0% state-tax state such as Texas or Florida owes $13,170 in federal income tax and $7,650 in FICA (7.65%), leaving $79,180 per year or $3,045 per biweekly paycheck."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do FICA taxes (Social Security and Medicare) work on my paycheck?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In 2026, W-2 employees pay 6.2% Social Security tax up to the $184,500 SSA wage base ($11,439 maximum per year) plus 1.45% Medicare tax on all covered wages (7.65% combined). Wages above $200,000 (Single) or $250,000 (Married Filing Jointly) also incur a 0.9% Additional Medicare Tax."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do pre-tax 401(k) and HSA contributions reduce my paycheck taxes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Traditional pre-tax 401(k) contributions reduce federal and most state taxable income dollar-for-dollar, though they remain subject to FICA. Payroll HSA contributions reduce federal income tax and FICA, lowering your effective tax rate in higher marginal brackets (22%, 24%, or above)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which US states have 0% state income tax on W-2 wages?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nine US states levy 0% state income tax on W-2 wages: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. Comparing a high-tax state like California or New York against a 0% state often changes net pay by $5,000 to $12,000+ per year."
+      }
+    }
+  ]
+}
+  </script>
   <link rel="canonical" href="https://dinhduy2702.github.io/us-smart-money-calculators/">
   <meta property="og:image" content="https://dinhduy2702.github.io/us-smart-money-calculators/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -109,6 +149,12 @@
         <button type="button" class="btn btn-sm" id="printReportBtn">Print<span class="hide-xs"> / PDF</span></button>
         <button type="button" class="btn btn-sm" id="resetDefaultsBtn">Reset</button>
       </div>
+    </section>
+
+    <!-- ANSWER-FIRST SUMMARY (48 WORDS — GEO / FEATURED SNIPPET READY, IRS REV. PROC. 2025-32) -->
+    <section class="answer-first-box" aria-label="Quick 2026 paycheck answer" style="margin:0 0 0.9rem;padding:0.85rem 1rem;border-radius:12px;border:1px solid var(--border-subtle, #dbe4ee);background:var(--bg-surface, #ffffff);font-size:0.9rem;line-height:1.5;color:var(--text-secondary, #334155);">
+      <strong style="color:var(--text-primary, #0f172a);">Quick Answer (2026 IRS Brackets):</strong>
+      A $100,000 single filer in a 0% income-tax state (Texas, Florida, or Washington) keeps approximately <strong style="color:var(--text-primary, #0f172a);">$79,180/year ($3,045 biweekly)</strong> after $13,170 in federal income tax ($16,100 standard deduction) and $7,650 in FICA (7.65%). Pre-tax 401(k) and HSA contributions lower taxable federal income dollar-for-dollar.
     </section>
 
     <section class="presets-bar" aria-label="Quick example scenarios">
@@ -784,11 +830,64 @@
         </div>
       </div>
     </section>
+
+    <!-- STATIC HTML REFERENCE TABLE & FAQ (MATCHES IRS REV. PROC. 2025-32 & FAQPAGE JSON-LD 100%) -->
+    <section class="card deep-section" id="tax-reference-2026" aria-label="2026 Federal tax brackets reference table" style="margin-top:1.25rem;">
+      <div class="deep-head">
+        <div>
+          <h2 class="card-heading">2026 Federal Income Tax Brackets &amp; FICA Thresholds (IRS Rev. Proc. 2025-32)</h2>
+          <p class="card-sub" style="margin-bottom:0;">Official Tax Year 2026 schedule matching this calculator: Standard Deduction $16,100 (Single), $32,200 (Married Filing Jointly), $24,150 (Head of Household); Social Security 6.2% up to $184,500 SSA wage base + Medicare 1.45%.</p>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="schedule-table" aria-label="2026 Federal marginal tax brackets table">
+          <thead>
+            <tr>
+              <th>Marginal Rate</th>
+              <th>Single Taxable Income</th>
+              <th>Married Filing Jointly</th>
+              <th>Head of Household</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>10%</strong></td><td class="tabular">$0 &ndash; $12,400</td><td class="tabular">$0 &ndash; $24,800</td><td class="tabular">$0 &ndash; $17,700</td></tr>
+            <tr><td><strong>12%</strong></td><td class="tabular">$12,401 &ndash; $50,400</td><td class="tabular">$24,801 &ndash; $100,800</td><td class="tabular">$17,701 &ndash; $67,450</td></tr>
+            <tr><td><strong>22%</strong></td><td class="tabular">$50,401 &ndash; $105,700</td><td class="tabular">$100,801 &ndash; $211,400</td><td class="tabular">$67,451 &ndash; $105,700</td></tr>
+            <tr><td><strong>24%</strong></td><td class="tabular">$105,701 &ndash; $201,775</td><td class="tabular">$211,401 &ndash; $403,550</td><td class="tabular">$105,701 &ndash; $201,750</td></tr>
+            <tr><td><strong>32%</strong></td><td class="tabular">$201,776 &ndash; $256,225</td><td class="tabular">$403,551 &ndash; $512,450</td><td class="tabular">$201,751 &ndash; $256,200</td></tr>
+            <tr><td><strong>35%</strong></td><td class="tabular">$256,226 &ndash; $640,600</td><td class="tabular">$512,451 &ndash; $768,700</td><td class="tabular">$256,201 &ndash; $640,600</td></tr>
+            <tr><td><strong>37%</strong></td><td class="tabular">Over $640,600</td><td class="tabular">Over $768,700</td><td class="tabular">Over $640,600</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card deep-section" id="paycheck-faq" aria-label="Frequently asked questions" style="margin-top:1rem;">
+      <h2 class="card-heading">2026 Paycheck &amp; Tax Calculator FAQ</h2>
+      <div style="display:flex;flex-direction:column;gap:0.65rem;margin-top:0.65rem;">
+        <details class="advanced-details" open>
+          <summary>How much is take-home pay on a $100,000 salary in a no-income-tax state?</summary>
+          <div class="advanced-inner" style="font-size:0.88rem;line-height:1.55;color:var(--text-secondary);">Using official 2026 IRS brackets (Rev. Proc. 2025-32, $16,100 single standard deduction), a single W-2 earner making $100,000 in a 0% state-tax state such as Texas or Florida owes $13,170 in federal income tax and $7,650 in FICA (7.65%), leaving $79,180 per year or $3,045 per biweekly paycheck.</div>
+        </details>
+        <details class="advanced-details">
+          <summary>How do FICA taxes (Social Security and Medicare) work on my paycheck?</summary>
+          <div class="advanced-inner" style="font-size:0.88rem;line-height:1.55;color:var(--text-secondary);">In 2026, W-2 employees pay 6.2% Social Security tax up to the $184,500 SSA wage base ($11,439 maximum per year) plus 1.45% Medicare tax on all covered wages (7.65% combined). Wages above $200,000 (Single) or $250,000 (Married Filing Jointly) also incur a 0.9% Additional Medicare Tax.</div>
+        </details>
+        <details class="advanced-details">
+          <summary>How do pre-tax 401(k) and HSA contributions reduce my paycheck taxes?</summary>
+          <div class="advanced-inner" style="font-size:0.88rem;line-height:1.55;color:var(--text-secondary);">Traditional pre-tax 401(k) contributions reduce federal and most state taxable income dollar-for-dollar, though they remain subject to FICA. Payroll HSA contributions reduce federal income tax and FICA, lowering your effective tax rate in higher marginal brackets (22%, 24%, or above).</div>
+        </details>
+        <details class="advanced-details">
+          <summary>Which US states have 0% state income tax on W-2 wages?</summary>
+          <div class="advanced-inner" style="font-size:0.88rem;line-height:1.55;color:var(--text-secondary);">Nine US states levy 0% state income tax on W-2 wages: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming. Comparing a high-tax state like California or New York against a 0% state often changes net pay by $5,000 to $12,000+ per year.</div>
+        </details>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <div class="geo-trust-bar" style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.55rem;padding-bottom:0.55rem;border-bottom:1px solid var(--border);"><strong>Last Updated: Nov 2026</strong> &middot; <strong>Sources:</strong> IRS Rev. Proc. 2026 Tax Brackets, SSA $176,100 FICA Wage Base, 2026 IRS $0.70/mi Mileage & 50-State DOR.</div>
+      <div class="geo-trust-bar" style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.55rem;padding-bottom:0.55rem;border-bottom:1px solid var(--border);"><strong>Last Updated: Nov 2026</strong> &middot; <strong>Sources:</strong> IRS Rev. Proc. 2025-32 (Tax Year 2026 Brackets &amp; Standard Deduction), SSA $184,500 FICA Wage Base (2026) &amp; 50-State DOR.</div>
       <strong>Educational Disclaimer:</strong> SmartMoney US calculators provide general estimates using 2026 federal tax brackets, FICA thresholds, and state income tax structures for informational purposes only. Actual tax liability depends on local city taxes, credits, itemized deductions, and IRS rule changes. This tool does not constitute certified tax, legal, or investment advice.
     </div>
   </footer>

@@ -154,7 +154,7 @@
     <!-- ANSWER-FIRST SUMMARY (48 WORDS — GEO / FEATURED SNIPPET READY, IRS REV. PROC. 2025-32) -->
     <section class="answer-first-box" aria-label="Quick 2026 paycheck answer" style="margin:0 0 0.9rem;padding:0.85rem 1rem;border-radius:12px;border:1px solid var(--border-subtle, #dbe4ee);background:var(--bg-surface, #ffffff);font-size:0.9rem;line-height:1.5;color:var(--text-secondary, #334155);">
       <strong style="color:var(--text-primary, #0f172a);">Quick Answer (2026 IRS Brackets):</strong>
-      A $100,000 single filer in a 0% income-tax state (Texas, Florida, or Washington) keeps approximately <strong style="color:var(--text-primary, #0f172a);">$79,180/year ($3,045 biweekly)</strong> after $13,170 in federal income tax ($16,100 standard deduction) and $7,650 in FICA (7.65%). Pre-tax 401(k) and HSA contributions lower taxable federal income dollar-for-dollar.
+      A $100,000 salary ($48.08/hr full-time) for a single filer in a 0% income-tax state (Texas, Florida, Washington) nets <strong style="color:var(--text-primary, #0f172a);">$79,180/year ($3,045 biweekly)</strong> after $13,170 federal tax ($16,100 standard deduction) and $7,650 FICA (7.65%). Pre-tax 401(k)/HSA lowers taxable income dollar-for-dollar.
     </section>
 
     <section class="presets-bar" aria-label="Quick example scenarios">
@@ -167,10 +167,33 @@
       <div class="calc-grid">
         <div class="card">
           <h2 class="card-heading">Income &amp; Tax Profile</h2>
-          <p class="card-sub">Every slider and field updates take-home pay, bracket breakdown, and state comparison instantly.</p>
+          <p class="card-sub">Switch between Annual Salary or Hourly (+ Overtime 1.5&times;) and add optional Local/City Tax.</p>
 
           <div class="form-stack">
-            <div class="field">
+            <div class="pay-mode-toggle" role="group" aria-label="Pay input mode">
+              <button type="button" class="mode-btn is-active" id="payModeAnnualBtn" data-pay-mode="annual" aria-pressed="true">Annual Salary</button>
+              <button type="button" class="mode-btn" id="payModeHourlyBtn" data-pay-mode="hourly" aria-pressed="false">Hourly + Overtime 1.5&times;</button>
+            </div>
+
+            <div class="hourly-box" id="payHourlyFields" hidden>
+              <div class="field-row-3">
+                <div class="field">
+                  <label for="payHourlyRate">Hourly Rate ($)</label>
+                  <input class="input-box tabular" type="number" id="payHourlyRate" min="0" max="1000" step="0.5" value="40.87">
+                </div>
+                <div class="field">
+                  <label for="payRegHours">Reg. Hrs / Wk</label>
+                  <input class="input-box tabular" type="number" id="payRegHours" min="1" max="80" step="1" value="40">
+                </div>
+                <div class="field">
+                  <label for="payOtHours">OT Hrs (1.5&times;)</label>
+                  <input class="input-box tabular" type="number" id="payOtHours" min="0" max="40" step="1" value="0">
+                </div>
+              </div>
+              <div class="hourly-note tabular" id="payHourlyCalcNote">$40.87/hr &times; 40h/wk &times; 52 = $85,010 / yr</div>
+            </div>
+
+            <div class="field" id="payAnnualField">
               <div class="field-head">
                 <label for="paySalary">Gross Annual Salary ($)</label>
                 <span class="field-hint tabular" id="paySalaryHint">$85,000 / yr</span>
@@ -188,6 +211,18 @@
                 <label for="payCompareState">Compare With 2nd State</label>
                 <select class="select-box" id="payCompareState"></select>
               </div>
+            </div>
+
+            <div class="field">
+              <div class="field-head">
+                <label for="payLocalTax">Local / City Tax (%)</label>
+                <div class="local-preset-row">
+                  <button type="button" class="local-preset-btn" data-local-rate="0">None (0%)</button>
+                  <button type="button" class="local-preset-btn" data-local-rate="3.876" data-local-state="NY">NYC (3.876%)</button>
+                  <button type="button" class="local-preset-btn" data-local-rate="3.75" data-local-state="PA">Philly (3.75%)</button>
+                </div>
+              </div>
+              <input class="input-box tabular" type="number" id="payLocalTax" min="0" max="15" step="0.05" value="0">
             </div>
 
             <div class="field-row-2">

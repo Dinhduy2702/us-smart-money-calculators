@@ -1657,3 +1657,67 @@ button:disabled {
     display: none !important;
   }
 }
+
+
+/* V28: Annual <-> Hourly Toggle, Overtime 1.5x & Local/City Tax Presets */
+.pay-mode-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.3rem;
+  padding: 0.22rem;
+  border-radius: 10px;
+  background: var(--bg-canvas, #f4f6f9);
+  border: 1px solid var(--border-subtle, #dbe4ee);
+}
+.mode-btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 0.42rem 0.6rem;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+.mode-btn.is-active {
+  background: var(--accent-emerald, #0f766e);
+  color: #ffffff;
+}
+.hourly-box {
+  padding: 0.7rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle, #dbe4ee);
+  background: var(--bg-canvas, #f8fafc);
+}
+.hourly-box[hidden] { display: none; }
+.field-row-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.hourly-note {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-emerald, #0f766e);
+}
+.local-preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+.local-preset-btn {
+  border: 1px solid var(--border-subtle, #cbd5e1);
+  border-radius: 999px;
+  padding: 0.14rem 0.5rem;
+  background: var(--bg-surface, #ffffff);
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.local-preset-btn:hover {
+  border-color: var(--accent-emerald, #0f766e);
+  color: var(--accent-emerald, #0f766e);
+}

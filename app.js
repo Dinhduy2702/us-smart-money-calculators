@@ -61,7 +61,7 @@
   };
 
   const SAVED_FIELDS = [
-    "paySalary", "payState", "payCompareState", "payFiling", "payFreq", "pay401k", "payHsa", "payHealth",
+    "paySalary", "payHourlyRate", "payRegHours", "payOtHours", "payLocalTax", "payState", "payCompareState", "payFiling", "payFreq", "pay401k", "payHsa", "payHealth",
     "cmpInitial", "cmpMonthly", "cmpRate", "cmpYears", "cmpInflation", "cmpCompareMode",
     "mtgPrice", "mtgDownPct", "mtgRate", "mtgTerm", "mtgExtraMonthly", "mtgBiweekly", "mtgTaxRate", "mtgIns", "mtgHoa", "mtgAnnualIncome", "mtgMonthlyDebt",
     "autoPrice", "autoDown", "autoApr", "autoMonths", "autoTax", "autoMonthlyIncome",
@@ -70,7 +70,8 @@
 
   const URL_PARAM_MAP = {
     paycheck: {
-      salary: "paySalary", state: "payState", compare: "payCompareState",
+      salary: "paySalary", hr: "payHourlyRate", reg: "payRegHours", ot: "payOtHours", local: "payLocalTax",
+      state: "payState", compare: "payCompareState",
       filing: "payFiling", freq: "payFreq", k401: "pay401k", hsa: "payHsa", health: "payHealth"
     },
     compound: {
@@ -308,18 +309,23 @@
     }).join("");
   }
 
-  function computePaycheckForState(salary, stateCode, filing, k401Pct, hsa, health) {
-    const k401 = Math.min(23500, salary * (k401Pct / 100));
+  let payInputMode = "annual";
+
+  function computePaycheckForState(salary, stateCode, filing, k401Pct, hsa, health, localPct = 0) {
+    const k401 = Math.min(24500, salary * (k401Pct / 100));
     const preTaxTotal = k401 + hsa + health;
-    const stdDed = TAX.standardDeduction[filing] || 15000;
+    const stdDed = TAX.standardDeduction[filing] || 16100;
     const fedTaxable = Math.max(0, salary - preTaxTotal - stdDed);
     const fedInfo = calcFederalDetails(fedTaxable, filing);
 
     const stateTaxable = Math.max(0, salary - preTaxTotal - Math.min(stdDed, 10000));
     const { tax: stateTax, state: stObj } = calcStateTax(stateTaxable, stateCode);
 
+    const localRate = Math.min(15, Math.max(0, Number(localPct) || 0));
+    const localTax = salary * (localRate / 100);
+
     const fica = calcFica(Math.max(0, salary - health - hsa), filing);
-    const totalTax = fedInfo.totalTax + stateTax + fica;
+    const totalTax = fedInfo.totalTax + stateTax + localTax + fica;
     const annualNet = Math.max(0, salary - totalTax - preTaxTotal);
 
     // Tax shield saved by 401(k) + HSA
@@ -327,11 +333,23 @@
     const stateNoPreTax = calcStateTax(Math.max(0, salary - health - Math.min(stdDed, 10000)), stateCode).tax;
     const taxShield = Math.max(0, (fedNoPreTax + stateNoPreTax) - (fedInfo.totalTax + stateTax));
 
-    return { k401, hsa, health, preTaxTotal, fedTaxable, fedInfo, stateTax, stObj, fica, totalTax, annualNet, taxShield };
+    return { k401, hsa, health, preTaxTotal, fedTaxable, fedInfo, stateTax, localTax, localRate, stObj, fica, totalTax, annualNet, taxShield };
   }
 
   /* TOOL 1: PAYCHECK */
   function updatePaycheck() {
+    if (payInputMode === "hourly") {
+      const hr = Math.max(0, Number($("payHourlyRate")?.value) || 0);
+      const regH = Math.max(0, Number($("payRegHours")?.value) || 0);
+      const otH = Math.max(0, Number($("payOtHours")?.value) || 0);
+      const annualFromHourly = Math.round((hr * regH + hr * 1.5 * otH) * 52);
+      $("paySalary").value = annualFromHourly;
+      $("paySalarySlider").value = Math.min(350000, Math.max(25000, annualFromHourly));
+      if ($("payHourlyCalcNote")) {
+        const otTxt = otH > 0 ? ` + ${otH}h OT (1.5×)` : "";
+        $("payHourlyCalcNote").textContent = `$${hr.toFixed(2)}/hr × ${regH}h${otTxt} × 52 = ${fmtUSD(annualFromHourly)} / yr`;
+      }
+    }
     const salary = Math.max(0, Number($("paySalary").value) || 0);
     const stateCode = $("payState").value;
     const compareCode = $("payCompareState").value;
@@ -340,12 +358,13 @@
     const k401Pct = Math.min(50, Math.max(0, Number($("pay401k").value) || 0));
     const hsa = Math.max(0, Number($("payHsa").value) || 0);
     const health = Math.max(0, Number($("payHealth").value) || 0);
+    const localPct = Math.min(15, Math.max(0, Number($("payLocalTax")?.value) || 0));
 
     $("paySalaryHint").textContent = `${fmtUSD(salary)} / yr`;
-    $("pay401kHint").textContent = `${k401Pct}% (${fmtUSD(Math.min(23500, salary * (k401Pct / 100)))})`;
+    $("pay401kHint").textContent = `${k401Pct}% (${fmtUSD(Math.min(24500, salary * (k401Pct / 100)))})`;
 
-    const res = computePaycheckForState(salary, stateCode, filing, k401Pct, hsa, health);
-    const cmp = computePaycheckForState(salary, compareCode, filing, k401Pct, hsa, health);
+    const res = computePaycheckForState(salary, stateCode, filing, k401Pct, hsa, health, localPct);
+    const cmp = computePaycheckForState(salary, compareCode, filing, k401Pct, hsa, health, 0);
 
     const perCheck = res.annualNet / freq;
     const freqNames = { 26: "Bi-Weekly", 24: "Semi-Monthly", 12: "Monthly", 52: "Weekly", 1: "Annual" };
@@ -365,18 +384,24 @@
     $("payHourlyNet").textContent = `${fmtUSD(res.annualNet / 2080)}/hr`;
     $("payKeepPct").textContent = `${Math.round(keepPct)}%`;
 
-    renderDonut($("payDonutSvg"), [
+    const donutSegs = [
       { value: res.annualNet, color: "var(--accent-emerald)" },
       { value: res.fedInfo.totalTax, color: "var(--accent-navy)" },
       { value: res.stateTax, color: "var(--accent-amber)" },
       { value: res.fica, color: "var(--accent-slate)" },
       { value: res.preTaxTotal, color: "#94A3B8" }
-    ]);
+    ];
+    if (res.localTax > 0) donutSegs.splice(3, 0, { value: res.localTax, color: "#8B5CF6" });
+    renderDonut($("payDonutSvg"), donutSegs);
 
+    const localRow = res.localTax > 0
+      ? `<tr><td><span class="swatch" style="background:#8B5CF6;"></span>Local / City Tax (${res.localRate.toFixed(2)}%)</td><td class="tabular">-${fmtUSD(res.localTax)}</td></tr>`
+      : "";
     $("payBreakdownBody").innerHTML = `
       <tr><td><span class="swatch" style="background:var(--accent-emerald);"></span>Net Take-Home Pay</td><td class="tabular">${fmtUSD(res.annualNet)}</td></tr>
       <tr><td><span class="swatch" style="background:var(--accent-navy);"></span>Federal Income Tax</td><td class="tabular">-${fmtUSD(res.fedInfo.totalTax)}</td></tr>
       <tr><td><span class="swatch" style="background:var(--accent-amber);"></span>${res.stObj.name} State Tax</td><td class="tabular">-${fmtUSD(res.stateTax)}</td></tr>
+      ${localRow}
       <tr><td><span class="swatch" style="background:var(--accent-slate);"></span>FICA (Social Security &amp; Medicare)</td><td class="tabular">-${fmtUSD(res.fica)}</td></tr>
       <tr><td><span class="swatch" style="background:#94A3B8;"></span>401(k), HSA &amp; Health Pre-Tax</td><td class="tabular">-${fmtUSD(res.preTaxTotal)}</td></tr>
       <tr><td>Gross Annual Salary</td><td class="tabular">${fmtUSD(salary)}</td></tr>
@@ -1061,7 +1086,29 @@
       updatePaycheck();
       saveInputs();
     });
-    ["payState", "payCompareState", "payFiling", "payFreq", "pay401k", "payHsa", "payHealth"].forEach((id) => bind(id, updatePaycheck));
+    document.querySelectorAll("[data-pay-mode]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        payInputMode = btn.dataset.payMode === "hourly" ? "hourly" : "annual";
+        document.querySelectorAll("[data-pay-mode]").forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle("is-active", active);
+          b.setAttribute("aria-pressed", String(active));
+        });
+        if ($("payHourlyFields")) $("payHourlyFields").hidden = payInputMode !== "hourly";
+        if ($("payAnnualField")) $("payAnnualField").hidden = payInputMode === "hourly";
+        updatePaycheck();
+        saveInputs();
+      });
+    });
+    document.querySelectorAll("[data-local-rate]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if ($("payLocalTax")) $("payLocalTax").value = btn.dataset.localRate;
+        if (btn.dataset.localState && $("payState")) $("payState").value = btn.dataset.localState;
+        updatePaycheck();
+        saveInputs();
+      });
+    });
+    ["payHourlyRate", "payRegHours", "payOtHours", "payLocalTax", "payState", "payCompareState", "payFiling", "payFreq", "pay401k", "payHsa", "payHealth"].forEach((id) => bind(id, updatePaycheck));
 
     $("cmpYears").addEventListener("input", (e) => {
       $("cmpYearsSlider").value = Math.min(45, Math.max(1, Number(e.target.value) || 1));
